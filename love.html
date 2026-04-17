@@ -1,22 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You ❤️</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             text-align: center;
             font-family: 'Segoe UI', sans-serif;
-            margin: 0;
             height: 100vh;
             overflow: hidden;
             background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1 {
             color: white;
-            margin-top: 100px;
             font-size: 40px;
             animation: fadeIn 2s ease-in-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .button-container {
+            margin-top: 40px;
+            position: relative;
+            height: 100px;
+            width: 300px;
         }
 
         button {
@@ -27,23 +45,33 @@
             border-radius: 30px;
             cursor: pointer;
             transition: 0.3s;
+            font-weight: bold;
         }
 
         #yes {
             background-color: #00c853;
             color: white;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
         }
 
         #yes:hover {
             transform: scale(1.1);
             background-color: #00e676;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         #no {
             background-color: #d50000;
             color: white;
             position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #no:hover {
+            background-color: #ff0000;
         }
 
         @keyframes fadeIn {
@@ -53,37 +81,48 @@
 
         /* Floating hearts */
         .heart {
-            position: absolute;
+            position: fixed;
             color: red;
             font-size: 20px;
-            animation: float 5s linear infinite;
+            animation: float 5s linear forwards;
+            pointer-events: none;
         }
 
         @keyframes float {
             0% {
-                transform: translateY(100vh);
+                transform: translateY(100vh) rotate(0deg);
                 opacity: 1;
             }
             100% {
-                transform: translateY(-10vh);
+                transform: translateY(-10vh) rotate(360deg);
                 opacity: 0;
             }
+        }
+
+        .celebration {
+            margin-top: 150px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 
 <body>
+    <h1>Do you love me? ❤️</h1>
 
-    <h1>Do you love me Khadija? ❤️</h1>
-
-    <button id="yes" onclick="yesClick()">Yes 💖</button>
-    <button id="no" onmouseover="moveButton()">No 😜</button>
+    <div class="button-container">
+        <button id="yes" onclick="yesClick()">Yes 💖</button>
+        <button id="no" onmouseover="moveButton()">No 😜</button>
+    </div>
 
     <script>
+        let heartInterval;
+
         function yesClick() {
             document.body.innerHTML = `
-                <h1 style="color:white; margin-top:150px;">
-                    I LOVE YOU SO MUCH Khadija Fareed My depression Patient ❤️🥰<br>
+                <h1 class="celebration">
+                    I LOVE YOU SO MUCH! ❤️🥰<br>
+                    You make my heart so happy! 💕
                 </h1>
             `;
             startHearts();
@@ -91,7 +130,7 @@
 
         function moveButton() {
             let btn = document.getElementById("no");
-            let x = Math.random() * (window.innerWidth - 100);
+            let x = Math.random() * (window.innerWidth - 120);
             let y = Math.random() * (window.innerHeight - 50);
 
             btn.style.left = x + "px";
@@ -99,7 +138,7 @@
         }
 
         function startHearts() {
-            setInterval(() => {
+            heartInterval = setInterval(() => {
                 let heart = document.createElement("div");
                 heart.className = "heart";
                 heart.innerHTML = "❤️";
@@ -110,8 +149,12 @@
                     heart.remove();
                 }, 5000);
             }, 300);
+
+            // Stop creating hearts after 10 seconds
+            setTimeout(() => {
+                clearInterval(heartInterval);
+            }, 10000);
         }
     </script>
-
 </body>
 </html>
